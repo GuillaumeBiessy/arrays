@@ -1,0 +1,22 @@
+Package: arrays
+Type: Package
+Title: Convenience Functions for Arrays Manipulation
+Version: 0.1.0
+Authors@R: person("Guillaume", "Biessy", email = "guillaume.biessy78@gmail.com",
+  role = c("aut", "cre"))
+Description: Convenience Functions for Arrays Manipulation to save people who 
+    use this data structure some time.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.6)
+Imports: 
+    rlang,
+    purrr,
+    data.table
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 2.1.0),
+VignetteBuilder: knitr
+RoxygenNote: 7.1.1
