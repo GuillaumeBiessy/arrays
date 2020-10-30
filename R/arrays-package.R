@@ -1,7 +1,7 @@
 #' arrays: Convenience functions for the manipulation of arrays
 #'
-#' The arrays package contains 6 functions for the manipulation of arrays and
-#' one function that converts a data.frame into an array
+#' The arrays package contains 7 functions for the manipulation of arrays and
+#' conversion between data.frame (tibble) and arrays.
 #'
 #' @import purrr
 #'
@@ -9,26 +9,24 @@
 #' @name arrays-package
 NULL
 
+## quiets concerns of R CMD check re: the .'s that appear in pipelines and data.table
+if (getRversion() >= "4.0")  {
+  gv <- c("data.table")
+  utils::globalVariables(gv)
+}
+
 # library(devtools)
 
 # # Packages
-# use_package("rlang")
 # use_package("purrr")
+# use_package("rlang")
+# use_package("reshape2")
 # use_package("data.table")
+# use_package("tibble")
 
 # # Data----
-# use_data_raw("LM20")
-# use_data_raw("HM-US")
-# use_data_raw("Predica20")
-# use_data_raw("Edu-US")
-# use_data_raw("HMD")
 
 # # Tests----
-# use_test("LM20")
-# use_test("HM_US")
-# use_test("Predica20")
-# use_test("Edu-US")
-# use_test("HMD")
 
 # # Patchnotes----
 # use_news_md()

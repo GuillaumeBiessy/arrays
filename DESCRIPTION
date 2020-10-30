@@ -11,9 +11,11 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.6)
 Imports: 
-    rlang,
     purrr,
-    data.table
+    data.table,
+    reshape2,
+    tibble,
+    rlang
 Suggests: 
     knitr,
     rmarkdown,

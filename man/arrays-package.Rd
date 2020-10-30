@@ -5,6 +5,6 @@
 \alias{arrays-package}
 \title{arrays: Convenience functions for the manipulation of arrays}
 \description{
-The arrays package contains 6 functions for the manipulation of arrays and
-one function that converts a data.frame into an array
+The arrays package contains 7 functions for the manipulation of arrays and
+conversion between data.frame (tibble) and arrays.
 }

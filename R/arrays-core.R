@@ -229,11 +229,30 @@ aMerge <- function(l, varname = "Source", fdims = NULL) {
 df_to_array <- function(data, covariates, value.var, fill = 0) {
 
   f <- covariates %>% paste(collapse = "+") %>% paste("~ .")
-  df <- data.table::dcast(
-    data, f, fun.aggregate = sum, value.var = value.var, drop = F, fill = fill)
+  df <- data %>%
+    data.table %>%
+    (data.table::dcast)(f, fun.aggregate = sum, value.var = value.var, drop = F, fill = fill)
   data.table::setkeyv(df, rev(covariates))
 
-  names_A <- map(df[,- length(df), with = F], unique)
+  names_A <- df[,- length(df), with = F] %>% map(unique)
   A <- aMake(data = df$., dimnames = names_A)
   return(A)
+}
+
+#' Array to data.frame conversion
+#'
+#' Convert an array object to a tibble
+#'
+#' @param data An array
+#' @param value.name The name of the column to store the array values.
+#'
+#' @return A tibble
+#' @export
+array_to_df <- function(data, value.name) {
+
+  df <- data %>%
+    (reshape2::melt)(value.name = value.name) %>%
+    (tibble::tibble)
+
+  return(df)
 }
