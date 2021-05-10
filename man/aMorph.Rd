@@ -4,7 +4,7 @@
 \alias{aMorph}
 \title{Array Transformation}
 \usage{
-aMorph(x, l, keep = T, reorder = !keep)
+aMorph(x, l, keep = TRUE, reorder = !keep)
 }
 \arguments{
 \item{x}{A vector or an array}

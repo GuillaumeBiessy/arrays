@@ -11,7 +11,7 @@ NULL
 
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines and data.table
 if (getRversion() >= "4.0")  {
-  gv <- c("data.table")
+  gv <- c("data.table", ".")
   utils::globalVariables(gv)
 }
 
@@ -23,10 +23,12 @@ if (getRversion() >= "4.0")  {
 # use_package("reshape2")
 # use_package("data.table")
 # use_package("tibble")
+# use_package("dplyr")
 
 # # Data----
 
-# # Tests----
+# Tests----
+# use_test("test")
 
 # # Patchnotes----
 # use_news_md()

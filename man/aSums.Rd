@@ -4,10 +4,10 @@
 \alias{aSums}
 \title{Array Sum over Dimensions}
 \usage{
-aSums(x, d, keep = T, na.rm = FALSE)
+aSums(x, d, keep = TRUE, na.rm = FALSE)
 }
 \arguments{
-\item{x}{An array, a vector}
+\item{x}{An array}
 
 \item{d}{Numeric or character vector. The dimensions to be considered.}
 

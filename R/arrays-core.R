@@ -16,7 +16,7 @@ aMake <- function(data, dimnames) {
 #'
 #' Return an array summed over one or several dimensions
 #'
-#' @param x An array, a vector
+#' @param x An array
 #' @param d Numeric or character vector. The dimensions to be considered.
 #' @param keep Boolean. Should those dimensions be kept or dropped in the final
 #'   result. By default the sum is made over all dimensions that are not
@@ -25,7 +25,7 @@ aMake <- function(data, dimnames) {
 #'
 #' @return An array or vector containing the sum over the undesired dimensions
 #' @export
-aSums <- function(x, d, keep = T, na.rm = FALSE) {
+aSums <- function(x, d, keep = TRUE, na.rm = FALSE) {
 
   stopifnot(is.numeric(d) || is.character(d))
 
@@ -46,18 +46,21 @@ aSums <- function(x, d, keep = T, na.rm = FALSE) {
 
   stopifnot(all(d <= length(dim(x))))
 
-  dims <- seq_along(dim(x))
+  dims <- dim(x) %>% seq_along
   cdims <- setdiff(dims, d)
 
-  head_d <- if(keep) cdims else d
-  tail_d <- if(!keep) cdims else d
+  head_d <- if (keep) cdims else d
+  tail_d <- if (!keep) cdims else d
 
-  if(length(head_d) == 0) return(x)
-  if(length(tail_d) == 0) return(sum(x))
+  if (length(head_d) == 0) return(x)
+  if (length(tail_d) == 0) return(sum(x))
 
+  dn <- dimnames(x)[tail_d]
   x <- aperm(x, c(head_d, tail_d))
 
-  return(colSums(x, na.rm = na.rm, dims = length(head_d)))
+  out <- colSums(x, na.rm = na.rm, dims = length(head_d)) %>% aMake(dn)
+
+  return(out)
 }
 
 #' Array Slice Insertion
@@ -78,7 +81,8 @@ aInsert <- function(x, d, values, replacement, index = F) {
 
   if (!is.array(x)) {
     stopifnot(is.character(d) || d == 1)
-    return(x[values])
+    x[values] <- replacement
+    return(x)
   }
 
   nd <- length(dim(x))
@@ -92,7 +96,9 @@ aInsert <- function(x, d, values, replacement, index = F) {
   indices <- rep(list(rlang::missing_arg()), nd)
   indices[[d]] <- values
 
+  dn <- dimnames(x)
   eval(rlang::expr(x[!!!indices] <- replacement))
+  x <- aMake(x, dn)
 
   return(x)
 }
@@ -145,7 +151,7 @@ aSlice <- function(x, d, values, index = F) {
 #'
 #' @return An array containing only the specified components
 #' @export
-aMorph <- function(x, l, keep = T, reorder = !keep) {
+aMorph <- function(x, l, keep = TRUE, reorder = !keep) {
 
   if (!is.array(x)) {
 
@@ -179,8 +185,8 @@ aMorph <- function(x, l, keep = T, reorder = !keep) {
   if (!keep) x <- aSums(x, nl)
   if (reorder && is.array(x)) {
 
-    d <- match(names(dim(x))[names(dim(x) %in% nl)], nl)
-    dims <- seq_along(dim(x))
+    d <- match(ndims[ndims %in% nl], nl)
+    dims <- dim(x) %>% seq_along
     cdims <- setdiff(dims, d)
     x <- aperm(x, c(d, cdims))
   }
@@ -230,11 +236,11 @@ df_to_array <- function(data, covariates, value.var, fill = 0) {
 
   f <- covariates %>% paste(collapse = "+") %>% paste("~ .")
   df <- data %>%
-    data.table %>%
-    (data.table::dcast)(f, fun.aggregate = sum, value.var = value.var, drop = F, fill = fill)
+    (data.table::data.table) %>%
+    (data.table::dcast)(f, fun.aggregate = sum, value.var = value.var, drop = FALSE, fill = fill)
   data.table::setkeyv(df, rev(covariates))
 
-  names_A <- df[,- length(df), with = F] %>% map(unique)
+  names_A <- df %>% (dplyr::select)(- .) %>% map(unique)
   A <- aMake(data = df$., dimnames = names_A)
   return(A)
 }
