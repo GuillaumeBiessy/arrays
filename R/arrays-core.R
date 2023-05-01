@@ -9,7 +9,7 @@
 #' @export
 aMake <- function(data, dimnames) {
 
-  map(dimnames, length) %>% array(data = data, dimnames = dimnames)
+  array(data = data, dim = map(dimnames, length), dimnames = dimnames)
 }
 
 #' Array Sum over Dimensions
