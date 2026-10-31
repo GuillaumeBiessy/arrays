@@ -1,0 +1,1 @@
+GATE=full VERDICT=PASS cmd="/c/Program Files/R/R-4.6.1/bin/Rscript.exe" -e 'devtools::test(stop_on_failure = TRUE)'
