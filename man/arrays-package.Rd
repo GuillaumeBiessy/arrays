@@ -2,9 +2,19 @@
 % Please edit documentation in R/arrays-package.R
 \docType{package}
 \name{arrays-package}
+\alias{arrays}
 \alias{arrays-package}
 \title{arrays: Convenience functions for the manipulation of arrays}
 \description{
 The arrays package contains 7 functions for the manipulation of arrays and
 conversion between data.frame (tibble) and arrays.
+}
+\author{
+\strong{Maintainer}: Guillaume Biessy \email{guillaume.biessy78@gmail.com}
+
+Authors:
+\itemize{
+  \item Guillaume Biessy \email{guillaume.biessy78@gmail.com}
+}
+
 }
